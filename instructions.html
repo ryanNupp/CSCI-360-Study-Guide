@@ -103,20 +103,539 @@
     <main class="my-5">
         <div class="container">
             <h1 class="mb-5 text-center">Instruction List</h1>
-            <p>This table displays information about instructions, their format, and how they function.<br>For more
-                information on encoding or decoding instructions, go <a href="notes/encoding.html">here.</a></p>
+            <p>For more information on how to use these instructions as well as encoding and decoding instructions, browse the <a href="index.html">notes</a>.</p>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <td>test</td>
+                        <th>Mnemonic</th>
+                        <th>Name</th>
+                        <th>Format</th>
+                        <th>Description</th>
+                        <th>Encoding</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>test</td>
+                        <td>A</td>
+                        <td>Add</td>
+                        <td>
+                            <pre class="mb-0"><code>A     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Adds value held at the relative address D(X, B) into register R</td>
+                        <td>
+                            <pre class="mb-0"><code>5A RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AR</td>
+                        <td>Add Register</td>
+                        <td>
+                            <pre class="mb-0"><code>AR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Adds value held in register R<sub>2</sub> into register R<sub>1</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>1A R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>Subtract</td>
+                        <td>
+                            <pre class="mb-0"><code>S     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Subtracts value held at the relative address D(X, B) from register R<br><br>Sets condition
+                            code:<br>0: &nbsp R<sub>1</sub> = 0<br>1: &nbsp R<sub>1</sub>
+                            < 0<br>2: &nbsp R<sub>1</sub> > 0<br>3: &nbsp Overflow
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>5B RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SR</td>
+                        <td>Subtract Register</td>
+                        <td>
+                            <pre class="mb-0"><code>SR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Subtracts value held in register R<sub>2</sub> from register R<sub>1</sub><br><br>Sets
+                            condition
+                            code:<br>0: &nbsp R<sub>1</sub> = 0<br>1: &nbsp R<sub>1</sub>
+                            < 0<br>2: &nbsp R<sub>1</sub> > 0<br>3: &nbsp Overflow
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>1B R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>Load</td>
+                        <td>
+                            <pre class="mb-0"><code>L     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Loads value held at the relative address D(X, B) into register R</td>
+                        <td>
+                            <pre class="mb-0"><code>58 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LR</td>
+                        <td>Load Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Loads value held at register R<sub>2</sub> into register R<sub>1</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>18 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ST</td>
+                        <td>Store</td>
+                        <td>
+                            <pre class="mb-0"><code>ST    R,D(X, B)</code></pre>
+                        </td>
+                        <td>Stores value held at relative address D(X, B) in register R</td>
+                        <td>
+                            <pre class="mb-0"><code>50 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>Compare</td>
+                        <td>
+                            <pre class="mb-0"><code>C     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Compares register R to value held at relative address D(X, B)<br><br>Sets condition
+                            code:<br>0:
+                            &nbsp R = D(X, B)<br>1: &nbsp R < D(X, B)<br>2: &nbsp R > D(X, B)</td>
+                        <td>
+                            <pre class="mb-0"><code>59 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CR</td>
+                        <td>Compare Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Compares value held into register R<sub>2</sub> to register R<sub>1</sub><br><br>Sets
+                            condition
+                            code:<br>0: &nbsp R<sub>1</sub> = R<sub>2</sub><br>1: &nbsp R<sub>1</sub>
+                            < R<sub>2</sub><br>2: &nbsp R<sub>1</sub> > R<sub>2</sub>
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>19 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BC</td>
+                        <td>Branch on Condition</td>
+                        <td>
+                            <pre class="mb-0"><code>BR    M,D(X, B)</code></pre><br>(M is a 4 digit<br>binary number)
+                        </td>
+                        <td>If condition code has a 1 bit that matches a 1 bit in the mask M, branch to address
+                            D(X, B)<br><br>Condition code -
+                            1 bit relationships:<br>0: &nbsp 1000<br>1: &nbsp 0100<br>2: &nbsp 0010<br>3: &nbsp
+                            0001<br><br>EX: This means a mask M of 0111 would branch if condition code<br>was 1, 2, or
+                            3, but would
+                            not branch with a condition code of 0
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>47 MX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BCR</td>
+                        <td>Branch on Condition Register</td>
+                        <td>
+                            <pre class="mb-0"><code>BCR   M,R<sub>2</sub></code></pre><br>(M is a 4 digit<br>binary
+                            number)
+                        </td>
+                        <td>If condition code has a 1 bit that matches a 1 bit in the mask M, branch to address
+                            stored in R<sub>2</sub><br><br>Condition code -
+                            1 bit relationships:<br>0: &nbsp 1000<br>1: &nbsp 0100<br>2: &nbsp 0010<br>3: &nbsp
+                            0001<br><br>EX: This means a mask M of 1000 would branch if condition<br>code was 0, but
+                            would
+                            not branch for any other condition code
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>07 MR<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>Multiply</td>
+                        <td>
+                            <pre class="mb-0"><code>M     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Value held at D(X, B) is multiplied by the odd register in the even-odd pair associated
+                            with register R. The product gets stored as a doubleword across the even-odd pair.
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>5C RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MR</td>
+                        <td>Multiply Registers</td>
+                        <td>
+                            <pre class="mb-0"><code>MR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Value held at R<sub>2</sub> is multiplied by the odd register in the even-odd pair
+                            associated with register R<sub>1</sub>. The product gets stored as a doubleword across
+                            R<sub>1</sub> even-odd pair.
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>1C R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>Divide</td>
+                        <td>
+                            <pre class="mb-0"><code>D     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Value held across the even-odd pair relative to R is divided by the value at D(X, B).
+                            The remainder is stored in the even register, and quotient in the odd register.
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>5D RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DR</td>
+                        <td>Divide Registers</td>
+                        <td>
+                            <pre class="mb-0"><code>DR    R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Value held across R<sub>1</sub> even-odd pair is divided by value at R<sub>2</sub><br>
+                            Remainder is stored in R<sub>1</sub> even, and quotient in R<sub>1</sub> odd.
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>1D R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>Divide</td>
+                        <td>
+                            <pre class="mb-0"><code>D     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Value held across the even-odd pair relative to R is divided by the value at D(X, B).
+                            The remainder is stored in the even register, and quotient in the odd register.
+                        </td>
+                        <td>
+                            <pre class="mb-0"><code>5D RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LA</td>
+                        <td>Load Address</td>
+                        <td>
+                            <pre class="mb-0"><code>L     R,D(X, B)</code></pre>
+                        </td>
+                        <td>Loads the address resolved from D(X, B) into register R</td>
+                        <td>
+                            <pre class="mb-0"><code>41 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LTR</td>
+                        <td>Load and Test Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LTR   R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Loads value held at register R<sub>2</sub> into register R<sub>1</sub><br><br>Sets condition
+                            code based on value of the result:<br>0: &nbsp Result = zero<br>1: &nbsp Result < zero<br>2:
+                                &nbsp Result > zero</td>
+                        <td>
+                            <pre class="mb-0"><code>12 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LPR</td>
+                        <td>Load Positive Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LPR   R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Takes absolute value of register R<sub>2</sub> and loads it into register R<sub>1</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>10 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LNR</td>
+                        <td>Load Negative Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LNR   R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>Takes the two's complement of the absolute value of register R<sub>2</sub> and loads it into
+                            register R<sub>1</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>11 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LCR</td>
+                        <td>Load Complement Register</td>
+                        <td>
+                            <pre class="mb-0"><code>LCR   R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>The two's complement of register R<sub>2</sub>is loaded into register R<sub>1</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>13 R<sub>1</sub>R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MVC</td>
+                        <td>Move Characters</td>
+                        <td>
+                            <pre class="mb-0"><code>MVC   D<sub>1</sub>(L, B<sub>1</sub>),D<sub>2</sub>(B<sub>2</sub>) </code></pre>
+                        </td>
+                        <td>Moves L amount of characters starting from D<sub>2</sub>(B<sub>2</sub>) and puts them
+                            starting at D<sub>1</sub>(B<sub>1</sub>)</td>
+                        <td>
+                            <pre class="mb-0"><code>D2 LL B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CLC</td>
+                        <td>Compare Logical Characters</td>
+                        <td>
+                            <pre class="mb-0"><code>MVC   D<sub>1</sub>(L, B<sub>1</sub>),D<sub>2</sub>(B<sub>2</sub>) </code></pre>
+                        </td>
+                        <td>Compares L amount of characters starting from D<sub>2</sub>(B<sub>2</sub>) to L amount of
+                            characters starting at D<sub>1</sub>(B<sub>1</sub>)<br><br>Sets condition
+                            code based on comparison:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) =
+                            D<sub>2</sub>(B<sub>2</sub>)<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 
+                            D<sub>2</sub>(B<sub>2</sub>)<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 
+                            D<sub>2</sub>(B<sub>2</sub>)</td>
+                        <td>
+                            <pre class="mb-0"><code>D5 LL B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>STM</td>
+                        <td>Store Multiple</td>
+                        <td>
+                            <pre class="mb-0"><code>STM   R<sub>1</sub>,R<sub>2</sub>,D(B) </code></pre>
+                        </td>
+                        <td>The set of registers ranging from  R<sub>1</sub> to R<sub>2</sub> (inclusive) are stored as contigious fullwords starting at address D(B)</td>
+                        <td>
+                            <pre class="mb-0"><code>90 R<sub>1</sub>R<sub>2</sub> BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LM</td>
+                        <td>Load Multiple</td>
+                        <td>
+                            <pre class="mb-0"><code>STM   R<sub>1</sub>,R<sub>2</sub>,D(B) </code></pre>
+                        </td>
+                        <td>Loads contigious fullwords starting at address D(B) into the set of registers ranging from R<sub>1</sub> to R<sub>2</sub> (inclusive)</td>
+                        <td>
+                            <pre class="mb-0"><code>98 R<sub>1</sub>R<sub>2</sub> BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BAL</td>
+                        <td>Branch and Link</td>
+                        <td>
+                            <pre class="mb-0"><code>BAL   R,D(X, B) </code></pre>
+                        </td>
+                        <td>The address of the instruction that follows the BAL instruction gets placed into register R, and then the program branches to address D(X, B)</td>
+                        <td>
+                            <pre class="mb-0"><code>45 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BALR</td>
+                        <td>Branch and Link Register</td>
+                        <td>
+                            <pre class="mb-0"><code>BALR  R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>The address of the instruction that follows the BALR instruction gets placed into register R<sub>1</sub>, and then the program branches to the address stored in R<sub>2</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>05 RR</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BCT</td>
+                        <td>Branch on Count</td>
+                        <td>
+                            <pre class="mb-0"><code>BCT   R,D(X, B)</code></pre>
+                        </td>
+                        <td>First, the value in register R is subtracted by 1.
+                            <br>After this, if register R = 0, no branch occurs, and the next instruction gets executed as normal.
+                            <br>Otherwise if register R > 0, branch to address D(X, B)</td>
+                        <td>
+                            <pre class="mb-0"><code>46 RX BDDD</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BCTR</td>
+                        <td>Branch on Count Register</td>
+                        <td>
+                            <pre class="mb-0"><code>BCTR  R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                        <td>First, the value in register R<sub>1</sub> is subtracted by 1.
+                            <br>After this, if register R = 0, no branch occurs, and the next instruction gets executed as normal.
+                            <br>Otherwise if register R > 0, branch to address stored in R<sub>2</sub></td>
+                        <td>
+                            <pre class="mb-0"><code>06 R<sub>1</sub>,R<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PACK</td>
+                        <td>Pack</td>
+                        <td>
+                            <pre class="mb-0"><code>PACK  D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>The zone decimal value of length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>), gets packed into a packed decimal value and placed into the packed decimal field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>)</td>
+                        <td>
+                            <pre class="mb-0"><code>F2 L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>UNPK</td>
+                        <td>Unpack</td>
+                        <td>
+                            <pre class="mb-0"><code>UNPK  D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>The packed decimal value of length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>) is unpacked into a zone decimal value and placed into the zone decimal field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>)</td>
+                        <td>
+                            <pre class="mb-0"><code>F3 L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ZAP</td>
+                        <td>Zero and Add Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>ZAP   D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>First, packed field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>) is set to 0.<br>After, the packed field of length length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>) gets added to operand 1 packed field D<sub>1</sub>(B<sub>1</sub>)<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0<br>3: &nbsp Overflow</td>
+                        <td>
+                            <pre class="mb-0"><code>F8 L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AP</td>
+                        <td>Add Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>AP    D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>Value of packed field length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>) gets added to packed field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>) and the sum gets stored there.<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0<br>3: &nbsp Overflow</td>
+                        <td>
+                            <pre class="mb-0"><code>FA L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SP</td>
+                        <td>Subtract Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>SP    D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>Value of packed field length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>) gets subtracted from packed field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>) and gets stored there.<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0<br>3: &nbsp Overflow</td>
+                        <td>
+                            <pre class="mb-0"><code>FB L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>MP</td>
+                        <td>Multiply Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>MP    D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>Value of packed field length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>) gets multiplied by packed field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>) and the product gets stored there.<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0<br>3: &nbsp Overflow</td>
+                        <td>
+                            <pre class="mb-0"><code>FC L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DP</td>
+                        <td>Divide Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>DP    D<sub>1</sub>(L<sub>1</sub>, B<sub>1</sub>),D<sub>2</sub>(L<sub>2</sub>, B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>Packed field of length L<sub>1</sub> at address D<sub>1</sub>(B<sub>1</sub>) gets divided by the value of packed field length L<sub>2</sub> at address D<sub>2</sub>(B<sub>2</sub>)</td>
+                        <td>
+                            <pre class="mb-0"><code>FD L<sub>1</sub>L<sub>2</sub> B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SRP</td>
+                        <td>Shift and Round Packed</td>
+                        <td>
+                            <pre class="mb-0"><code>SRP   D<sub>1</sub>(L, B<sub>1</sub>),D<sub>2</sub>(B<sub>2</sub>),i</code></pre>
+                        </td>
+                        <td>The packed field of length L at D<sub>1</sub>(B<sub>1</sub>) gets shifted by an amount and direction determined from D<sub>2</sub>(B<sub>2</sub>).<br>The rounding factor is determined by i<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0<br>3: &nbsp Overflow</td>
+                        <td>
+                            <pre class="mb-0"><code>F0 Li B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ED</td>
+                        <td>Edit</td>
+                        <td>
+                            <pre class="mb-0"><code>ED    D<sub>1</sub>(L, B<sub>1</sub>),D<sub>2</sub>(B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>The packed field of length L at D<sub>2</sub>(B<sub>2</sub>) gets edited into field at address D<sub>1</sub>(B<sub>1</sub>). The first operand D<sub>1</sub>(B<sub>1</sub>) should be initialized with an edit mask using MVC before this instruction is called.<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0</td>
+                        <td>
+                            <pre class="mb-0"><code>DE LL B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>EDMK</td>
+                        <td>Edit and Mark</td>
+                        <td>
+                            <pre class="mb-0"><code>EDMK  D<sub>1</sub>(L, B<sub>1</sub>),D<sub>2</sub>(B<sub>2</sub>)</code></pre>
+                        </td>
+                        <td>Identical to ED instruction, except that it points register 1 to the first non-zero digit of an edited number.<br><br>Sets condition code:<br>0: &nbsp D<sub>1</sub>(B<sub>1</sub>) = 0<br>1: &nbsp D<sub>1</sub>(B<sub>1</sub>) < 0<br>2: &nbsp D<sub>1</sub>(B<sub>1</sub>) > 0</td>
+                        <td>
+                            <pre class="mb-0"><code>DF LL B<sub>1</sub>DDD<sub>1</sub> B<sub>2</sub>DDD<sub>2</sub></code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>XDUMP</td>
+                        <td>XDUMP</td>
+                        <td><pre class="mb-0"><code>XDUMP  D(X, B),L</code></pre></td>
+                        <td>Hexadecimal dump of storage starting at address D(X, B) for L bytes.<br><br>To give a hexadecimal dump of all the GPRs:<pre class="m-0"><code>XDUMP  ,</code></pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>XREAD</td>
+                        <td>XREAD</td>
+                        <td><pre class="mb-0"><code>XREAD  D(X, B),L</code></pre></td>
+                        <td>Read L amount of bytes to the input buffer located in storage at address D(X, B).<br>In class, input buffers were typically 80 bytes.<br><br>Sets condition code:<br>0: &nbsp Successful read<br>1: &nbsp End of file reached</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>XPRNT</td>
+                        <td>XPRNT</td>
+                        <td><pre class="mb-0"><code>XPRNT  D(X, B),L</code></pre></td>
+                        <td>Prints a line defined in storage at D(X, B) of length L bytes.<br>In class, print lines were typically 133 bytes.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>XDECI</td>
+                        <td>XDECI</td>
+                        <td><pre class="mb-0"><code>XDECI  R,D(X, B)</code></pre></td>
+                        <td>Converts character representation stored at D(X, B) to binary and stores it in register R.<br>- Scans digits until a space is reached.<br>- First character may be a (+) or a (-) to represent if the number is positive or negative.<br>- Register 1 is set to the address of next value to read.<br><br>Sets condition code:<br>0: &nbsp R = 0<br>1: &nbsp R < 0<br>2: &nbsp R > 0<br>3: &nbsp D(X, B) is an invalid number</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>XDECO</td>
+                        <td>XDECO</td>
+                        <td><pre class="mb-0"><code>XDECO  R,D(X, B)</code></pre></td>
+                        <td>Converts binary number in register R to printable characters and stores it at D(X, B)<br>- 12 byte character representation<br>- If number is negative, a (-) negative symbol gets printed left of the first digit.</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
+            <p>Information for this table was gathered from
+                <a href="http://www.simotime.com/asmins01.htm">simotime.com</a>,
+                <a href="https://en.wikibooks.org/wiki/360_Assembly/360_Instructions">360 Assembly wikibooks</a>, the
+                <a href="PDF/IBM System 370 Reference Summary.pdf">yellow card</a>, and our class notes.
+            </p>
         </div>
     </main>
 </body>

@@ -148,15 +148,21 @@
                 <h2 class="mb-4">About Base Registers</h2>
                 <p class="fs-5">Base registers get defined with</p>
                 <div class="py-2 px-3 border mb-4">
-                    <pre><code><br>            USING     [CSECT name],[base register]              * In class, register 12 was used for this</code></pre>
+                    <pre><code><br>            USING     [CSECT name],[base register]</code></pre>
                 </div>
                 <p style="font-size: 0.8em">* This is part of entry linkage. For more information on entry / exit linkage check <a href="structure.html">this page.</a></p>
                 <p>The purpose of defining base registers is so that base registers left default in relative addressing
                     go to the base register that is defined with the USING statement. This is to make sure relative
                     addressing works properly within the current program or subprogram. This helps ensure all relative
                     addresses stay within the program, otherwise if an address is outside the scope of the program an
-                    ABEND will happen. See below for more.</p>
+                    ABEND will happen. See the bottom of this page for more.</p>
                 </div>
+
+                <hr class="mt-5">
+                <h2 class="mb-4">Absolute Addressing</h2>
+                <p class="fs-5">To use absolute addressing in the code, follow this format: <pre class="mb-0"><code>Address converted from Hex to Decimal(, Base Register)</code></pre></p>
+                <p class="fs-5 mt-5">An example: <pre><code>32(,15)</code></pre>This example references address 20 &nbsp (32 in Decimal = 20 in Hex)<br>This example assumes the USING statement established addressability on register 15.</p>
+                <p class="mt-5">Don't forget - Addresses are in Hex, but we type them in using Decimal. Remember to convert as necessary.</p>
 
                 <hr class="mt-5">
                 <h2 class="mb-4">Related Interruption Codes</h2>
