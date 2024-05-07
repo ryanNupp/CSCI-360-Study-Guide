@@ -1,0 +1,43 @@
+html,
+body {
+    height: 100%;
+}
+
+.nav li a {
+    color: white !important;
+}
+
+.nav li a:hover {
+    color: rgb(193, 193, 193) !important;
+}
+
+.nav li a:active {
+    color: rgb(139, 139, 139) !important;
+}
+
+#top-nav li .active {
+    color: rgb(139, 139, 139) !important;
+}
+
+/* This is the grid for main content - sidebar & main content */
+#main-grid {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "sidebar main";
+}
+
+/* This removes sidebar column if screen size is too small */
+@media (max-width: 1199.99px) {
+    #main-grid {grid-template-columns: 1fr};
+}
+
+#side-links {
+    position: sticky;
+    top: 6rem;
+}
+
+.sidebar {
+    width: 280px;
+}
