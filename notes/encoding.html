@@ -122,6 +122,49 @@
                 <h1 class="mb-3 text-center" id="content">Encoding & Decoding</h1>
                 <hr>
                 <h2 class="mb-4">Encoding</h2>
+                <p>Encoding differs depending on which type of format the instruction follows.<br>
+                   Here are a couple of common instruction types and their encoding formats</p>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Format</th>
+                            <th>Encoding Format</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RR</td>
+                            <td>R<sub>1</sub>,R<sub>2</sub></td>
+                            <td>OO R<sub>1</sub>R<sub>2</sub><br><br>OO = 2 digit hex OP code</td>
+                            <td>2 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>RX</td>
+                            <td>R,D(X, B)</td>
+                            <td>OO RX BDDD<br><br>OO = 2 digit hex OP code<br>DDD = 3 digit hex representation of displacement D</td>
+                            <td>4 bytes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>There are more instruction types and formats than these two, view more information on <a href="../instructions.html">this page</a>.</p>
+
+                <h3 class="mt-5 mb-4">How to encode</h3>
+                <p>An example RR instruction would be Add Register - AR</p>
+                <p>Typing <code> AR   2,3 </code> adds the value in register 3 into register 2</p>
+                <p class="mb-5">Encode using the OP code, then R<sub>1</sub>, and R<sub>2</sub>: <code> 1A23 </code></p>
+                
+                <p>An example RX instruction would be Load Address - LA</p>
+                <p>Typing <code> LA   2,4(2, 5) </code> loads the address at 4(2, 5) into register 2</p>
+                <p>Encode using the OP code, R, X, B, and D: <code> 41225004 </code></p>
+                <p style="font-size: 0.8em">* When encoding, don't forget to convert Displacement from decimal to hex! Displacement is encoded as a 3 digit hex number.</p>
+
+                <h3 class="mt-5 mb-4">Information to Encode</h3>
+                <p>Encoding isn't too difficult when given the OP codes & formatting information.<br>
+                   The <a href="../instructions.html">Instructions</a> page has a table listing most instructions used in this course, with OP Code and Encoding Format information
+                </p>
+                <p>You should use that information to encode for any instruction you need.</p>
             </div>
         </main>
     </div>

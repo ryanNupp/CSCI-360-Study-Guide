@@ -121,7 +121,10 @@
                         <td>
                             <pre class="mb-0"><code>A     R,D(X, B)</code></pre>
                         </td>
-                        <td>Adds value held at the relative address D(X, B) into register R</td>
+                        <td>Adds value held at the relative address D(X, B) into register R<br><br>
+                            Sets condition code:<br>0: &nbsp R = 0<br>1: &nbsp R
+                            < 0<br>2: &nbsp R > 0<br>3: &nbsp Overflow
+                        </td>
                         <td>
                             <pre class="mb-0"><code>5A RX BDDD</code></pre>
                         </td>
@@ -132,7 +135,10 @@
                         <td>
                             <pre class="mb-0"><code>AR    R<sub>1</sub>,R<sub>2</sub></code></pre>
                         </td>
-                        <td>Adds value held in register R<sub>2</sub> into register R<sub>1</sub></td>
+                        <td>Adds value held in register R<sub>2</sub> into register R<sub>1</sub><br><br>
+                            Sets condition code:<br>0: &nbsp R<sub>1</sub> = 0<br>1: &nbsp R<sub>1</sub>
+                            < 0<br>2: &nbsp R<sub>1</sub> > 0<br>3: &nbsp Overflow
+                        </td>
                         <td>
                             <pre class="mb-0"><code>1A R<sub>1</sub>R<sub>2</sub></code></pre>
                         </td>
@@ -143,9 +149,9 @@
                         <td>
                             <pre class="mb-0"><code>S     R,D(X, B)</code></pre>
                         </td>
-                        <td>Subtracts value held at the relative address D(X, B) from register R<br><br>Sets condition
-                            code:<br>0: &nbsp R<sub>1</sub> = 0<br>1: &nbsp R<sub>1</sub>
-                            < 0<br>2: &nbsp R<sub>1</sub> > 0<br>3: &nbsp Overflow
+                        <td>Subtracts value held at the relative address D(X, B) from register R<br><br>
+                            Sets condition code:<br>0: &nbsp R = 0<br>1: &nbsp R
+                            < 0<br>2: &nbsp R > 0<br>3: &nbsp Overflow
                         </td>
                         <td>
                             <pre class="mb-0"><code>5B RX BDDD</code></pre>

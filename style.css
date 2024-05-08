@@ -41,3 +41,11 @@ body {
 .sidebar {
     width: 280px;
 }
+
+pre {
+    white-space: normal;
+}
+
+code {
+    white-space: pre;
+}

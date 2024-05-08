@@ -168,26 +168,53 @@
 
                 <h3>DC - Define Constant</h3>
                 <p>This is for putting a constant directly into storage.</p>
-                <div class="py-2 px-3 border">
-                    <!-- This is the only way I could get multiple lines of code to display properly -->
-                    <pre><code>
-VARNME      DC      C'$'            defines constant VARNME with the $ character literal
-</code></pre>
-                    <!-- this formatting is very unfortunate. -->
+                <div class="pt-4 pb-2 px-3 border">
+                    <pre><code>VARNME      DC      C'$'            defines constant VARNME with the $ character literal</code></pre>
                 </div>
 
                 <h3 class="mt-5">DS - Define Storage</h3>
                 <p>This is for defining a space in storage that can hold a specific length of a type of variable</p>
-                <div class="py-2 px-3 border">
-                    <pre><code>
-VARNME      DS      3C              defines a space in storage that can hold 3 characters
-</code></pre>
+                <div class="pt-4 pb-2 px-3 border">
+                    <pre><code>VARNME      DS      CL3             defines a space in storage that can hold 3 characters</code></pre>
                 </div>
 
                 <br>
                 <hr class="mt-5">
+                <h2 class="mb-4">XREAD and XPRNT</h2>
+                <p>XREAD and XPRNT utilize defined storage to read input files and print output lines.</p>
+                <h3 class="mt-5">XREAD</h3>
+                <pre><code>XREAD   D(X, B),L</code></pre>
+                <p>Reads L amount of bytes to the input buffer located at the relative address D(X, B)<br>
+                   Sets condition code to 0 upon a successful read, or 1 upon reaching end of file.<br><br>
+                   In class, buffers were defined in storage with 80 bytes like this:</p>
+                <div class="pt-4 pb-2 px-3 border mb-3">
+                    <pre><code>BUFFER      DS      CL80            Input buffer named BUFFER that can hold 80 Character Literals</code></pre>
+                </div>
+                <p class="mb-0">This could be used with XREAD like this:</p>
+                <pre><code><br>XREAD   BUFFER,80</code></pre>
+                <p class="mt-4">To XREAD all lines of a document, looping is necessary. The condition for a read loop branch instruction can be based on the condition codes that XREAD sets.</p>
+                <h3 class="mt-5">XPRNT</h3>
+                <pre><code>XPRNT   D(X, B),L</code></pre>
+                <p>Prints L bytes from the print line located at address D(X, B). Typically 133 bytes would be used for print lines in class.<br>
+                   It is best practice to define a print detail line in storage. Print line should include Carriage Control as the first character and then defined storage and constants for formatting purposes.</p>
+                <div class="pt-4 pb-2 px-3 border mb-3">
+                    <pre>
+                        <code>DETAIL   DC    C'0'      First character of DETAIL line, C'0' is carriage control for double-spacing </code><br>
+                        <code>OFIELD1  DS    CL25      First output field of the DETAIL line, defined storage for 25 characters</code><br>
+                        <code>         DC    5C' '     5 character literal spaces ' ' to provide spacing between OFIELD1 and OFIELD2</code><br>
+                        <code>OFIELD2  DS    CL10      Second output field, storage for 10 characters</code><br>
+                        <code>         DC    10C' '    10 characters literal spaces ' ' for spacing</code><br>
+                        <code>OFIELD3  DS    CL9       Third output field, storage for 9 characters</code><br>
+                        <code>         DC    73CL' '   73 character literal spaces. This brings the DETAIL line to 133 total bytes</code>
+                    </pre>
+                </div>
+                <p>Defining this in storage, we can now fill the 3 output fields with whatever we want,<br>typically from our input BUFFER retrieved with XREAD.</p>
+                <p>When ready, the detail line can be output with XPRNT like this: <pre><code>    XPRNT   DETAIL,133</code></pre></p>
+                
+                <br>
+                <hr class="mt-5">
                 <h2 class="mb-4">Carriage Control</h2>
-                <p>Carriage control defines how to space output when printing. </p>
+                <p>Carriage control defines how to space output when printing.</p>
                 <table class="table table-bordered table-striped" style="width: 250px;">
                     <thead>
                         <tr>
@@ -214,6 +241,14 @@ VARNME      DS      3C              defines a space in storage that can hold 3 c
                         </tr>
                     </tbody>
                 </table>
+                <p>Carriage control prints BEFORE the rest of the detail line to be printed.<br><br>
+                   A carriage control of C'0' is double-spacing, so lets say we have our print line defined with C'0' carriage control.<br>
+                   The program would first print a blank space, and THEN the rest of the characters of the print line.<br>
+                   If it were triple spacing C'-' then the program would print two blank lines before the rest of the print line.<br><br>
+                   Carriage MUST be set for each individual print line, it does not carry over to following print lines.<br>
+                   Forgetting to define carriage control will result in XPRNT interpereting the first character as carriage control.<br>
+                   This means the first character will not display, as the program tried to read it to use for the spacing.
+                   </p>
             </div>
         </main>
     </div>

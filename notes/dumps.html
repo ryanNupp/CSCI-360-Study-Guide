@@ -121,7 +121,115 @@
             <div class="pt-2 ps-lg-2">
                 <h1 class="mb-3 text-center" id="content">ABEND Dumps</h1>
                 <hr>
-                <h2 class="mb-4">Topic</h2>
+                <h2 class="mb-4">ABENDs</h2>
+                <p>When an assembly program reaches a runtime error, an ABEND (abnormal end) happens.<br>
+                   This could happen for a variety of reasons. an ABEND will return a PSW code that will<br>
+                   give some information as to why the ABEND occured.
+                </p>
+                <h3 class="mb-4">PSW codes</h3>
+                <p>PSW codes display as two hexadecimal fullwords, 16 Hex digits, which represent 8 bytes or 64 bits</p>
+                <p>How to read a PSW code:</p>
+                <table class="table mb-4" style="width: 350px">
+                    <thead>
+                        <tr>
+                            <th>Bytes</th>
+                            <th>Contents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 & 2</td>
+                            <td>Ignore for now</td>
+                        </tr>
+                        <tr>
+                            <td>3 & 4</td>
+                            <td>Interruption Code</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>2 bits: Instruction Length Code (ILC)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2 bits: Condition Code (CC)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>4 bits: Ignore for now</td>
+                        </tr>
+                        <tr>
+                            <td>6 - 8</td>
+                            <td>Address of next instruction</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 class="mb-4">About these</h3>
+                <p>- Interruption Code tells what error caused the ABEND<br>
+                   - ILC is the instruction length in bytes<br>
+                   - CC is the most recent condition code set by some instruction<br>
+                   - Address of next instruction is location of what would have executed next</p>
+                <p>With this information, we can also determine address of the current instruction:</p>
+                <p class="fs-3 mb-5">Instruction Length = ILC * 2<br>
+                    Instruction adress = Address of next instruction - Instruction Length</p>
+                <h3 class="mb-4">Example</h3>
+                <p>Here is an example of a PSW:<code>   FFC50001 50000032</code><br>
+                   Interruption Code = bytes 3 & 4:<code>   0001</code><br>
+                   Byte 5 gives the ILC and the CC:<code>   50</code><br>
+                   Converting the <code> 50 </code> to binary would be:<code>  0101 0000</code><br>
+                   ILC = First two bits: <code>    01</code><br>
+                   CC = Second two bits: <code>  01</code><br>
+                   Last four bits can be ignored<br>
+                   Address of next instruction = bytes 6 through 8: <code>  000032</code></p>
+                <p>The interruption code is <code>0001</code> which is a <code>S0C1</code> Operation Exception error</p>
+                <p>The ILC is <code>01</code>, so to calculate the instruction length in bytes: 1 * 2 = <code>2 bytes</code></p>
+                <p>Address of current instruction: <code> 000032 - 2 =  000030</code></p>
+
+
+                <hr class="mt-5">
+                <h2 class="mb-4">Interruption Codes</h2>
+                <p>This is a list of some interruption codes for common ABEND causes</p>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <td>S0C1</td>
+                        <td>Operation exception</td>
+                        <td>Invalid operation code. An invalid instruction was typed in the code</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0C4</td>
+                        <td>Protection exception</td>
+                        <td>Address referenced outside the bounds of the program</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0C5</td>
+                        <td>Addressing exception</td>
+                        <td>Address referenced that exceeds the bounds of the memory, does not exist</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0C6</td>
+                        <td>Specification exception</td>
+                        <td>Failure to observe a boundary alignment<br><br>EX: Trying to load a register or store a register's<br>contents to storage not on a fullword boundary</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0C7</td>
+                        <td>Data exception</td>
+                        <td>Invalid packed decimal number (in one or both operands)</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0C9</td>
+                        <td>Fixed-point divide exception</td>
+                        <td>Divide or Divide Register instruction causes a divisor<br>of zero or the quotient is too large</td>
+                    </tbody>
+                    <tbody>
+                        <td>S0CB</td>
+                        <td>Decimal divide exception</td>
+                        <td>Divide Packed instruction tried to divide by zero<br>or there are too few bytes for the quotient to fit into</td>
+                    </tbody>
+                </table>
             </div>
         </main>
     </div>
